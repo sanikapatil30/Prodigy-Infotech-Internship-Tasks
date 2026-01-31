@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #4e54c8, #8f94fb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    width: 320px;
+}
+
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#status {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #555;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background: #f4f6ff;
+    border-radius: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4e54c8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cell:hover {
+    background: #dfe3ff;
+    transform: scale(1.05);
+}
+
+.cell.win {
+    background: #4CAF50;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #4e54c8;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #3b40a4;
+}
