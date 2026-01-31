@@ -1,79 +1,61 @@
-const cells = document.querySelectorAll(".cell");
-const statusText = document.getElementById("status");
-const restartBtn = document.getElementById("restart");
+let startTime;
+let elapsedTime = 0;
+let timerInterval;
+let running = false;
+let lapCount = 1;
 
-let currentPlayer = "X";
-let gameActive = true;
-let gameState = ["", "", "", "", "", "", "", "", ""];
+const display = document.getElementById("display");
+const startBtn = document.getElementById("start");
+const resetBtn = document.getElementById("reset");
+const lapBtn = document.getElementById("lap");
+const lapList = document.getElementById("lapList");
 
-const winningCombinations = [
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
-];
+function formatTime(ms) {
+  let seconds = Math.floor(ms / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
 
-cells.forEach(cell => cell.addEventListener("click", handleClick));
-restartBtn.addEventListener("click", restartGame);
+  seconds %= 60;
+  minutes %= 60;
 
-function handleClick() {
-    const index = this.getAttribute("data-index");
-
-    if (gameState[index] !== "" || !gameActive) return;
-
-    gameState[index] = currentPlayer;
-    this.textContent = currentPlayer;
-
-    checkResult();
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-function checkResult() {
-    let roundWon = false;
+function startStopwatch() {
+  if (!running) {
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(() => {
+      elapsedTime = Date.now() - startTime;
+      display.textContent = formatTime(elapsedTime);
+    }, 1000);
 
-    for (let combo of winningCombinations) {
-        const [a, b, c] = combo;
-
-        if (gameState[a] &&
-            gameState[a] === gameState[b] &&
-            gameState[a] === gameState[c]) {
-
-            roundWon = true;
-            cells[a].classList.add("win");
-            cells[b].classList.add("win");
-            cells[c].classList.add("win");
-            break;
-        }
-    }
-
-    if (roundWon) {
-        statusText.textContent = `🎉 Player ${currentPlayer} Wins!`;
-        gameActive = false;
-        return;
-    }
-
-    if (!gameState.includes("")) {
-        statusText.textContent = "🤝 Game Draw!";
-        gameActive = false;
-        return;
-    }
-
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    statusText.textContent = `Player ${currentPlayer}'s Turn`;
+    startBtn.textContent = "Pause";
+    running = true;
+  } else {
+    clearInterval(timerInterval);
+    startBtn.textContent = "Start";
+    running = false;
+  }
 }
 
-function restartGame() {
-    gameActive = true;
-    currentPlayer = "X";
-    gameState = ["", "", "", "", "", "", "", "", ""];
-
-    cells.forEach(cell => {
-        cell.textContent = "";
-        cell.classList.remove("win");
-    });
-
-    statusText.textContent = "Player X's Turn";
+function resetStopwatch() {
+  clearInterval(timerInterval);
+  elapsedTime = 0;
+  running = false;
+  lapCount = 1;
+  display.textContent = "00:00:00";
+  startBtn.textContent = "Start";
+  lapList.innerHTML = "";
 }
+
+function addLap() {
+  if (running) {
+    const li = document.createElement("li");
+    li.textContent = `Lap ${lapCount++} - ${formatTime(elapsedTime)}`;
+    lapList.appendChild(li);
+  }
+}
+
+startBtn.addEventListener("click", startStopwatch);
+resetBtn.addEventListener("click", resetStopwatch);
+lapBtn.addEventListener("click", addLap);

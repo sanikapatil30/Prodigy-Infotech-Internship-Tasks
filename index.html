@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Tic Tac Toe | Prodigy InfoTech</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Stopwatch App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>Tic Tac Toe</h1>
-    <p id="status">Player X's Turn</p>
+  <div class="container">
+    <h1>⏱ Stopwatch</h1>
 
-    <div class="game-board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
+    <div class="display" id="display">
+      00:00:00
     </div>
 
-    <button id="restart">Restart Game</button>
-</div>
+    <div class="buttons">
+      <button id="start">Start</button>
+      <button id="lap">Lap</button>
+      <button id="reset">Reset</button>
+    </div>
 
-<script src="script.js"></script>
+    <div class="laps">
+      <h3>Lap Times</h3>
+      <ul id="lapList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
